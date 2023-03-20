@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import ShowList from './showlist';
 import {getUser} from '../lib/user'
+import { useRouter } from 'next/router';
 
-export default function Contact(props
-) {
+export default function AddUser(props) {
+  const router = useRouter()
   const [firstname, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [lastname, setLastName] = useState('');
@@ -14,7 +15,7 @@ export default function Contact(props
     e.preventDefault();
     const errors = validate();
     if (Object.keys(errors).length === 0) {
-        const response = await fetch('/api/users',{
+        const response = await fetch('api/users',{
             method: 'POST',
             body: JSON.stringify({ email,firstname, lastname,business }),
             header:{
@@ -22,6 +23,7 @@ export default function Contact(props
               }   
         })
         const data = await response.json()
+        console.log(data);
       setUser(
         [...user, data]
       );
@@ -35,7 +37,9 @@ export default function Contact(props
       setErrors(errors);
     }
   };
-
+ function cancelClick(){
+  router.push('/showlist')
+ }
   const validate = () => {
     const errors = {};
     if (!firstname.trim()) {
@@ -56,7 +60,7 @@ export default function Contact(props
   };
 
   const [user, setUser] = useState(props.users)
-  console.log("user2",user)
+ 
   return (
     <div>
       <div className="container">
@@ -84,11 +88,14 @@ export default function Contact(props
     <div className="form_group">
         <label> Business</label>
         <select id="business" name="business" value={business} onChange={(e) => setBusiness(e.target.value)} >
+        <option value="0"></option>
         <option value="Food & Beverage">Food &amp; Beverage</option>
         <option value="Restauants">Restauants</option>
         <option value="Pet Shop">Pet Shop</option>
         <option value="Fashion">Fashion</option>
+        
         </select>
+        {errors.business && <div>{errors.business}</div>}
         <span />
     </div>
     <div className="form_group">
@@ -100,17 +107,12 @@ export default function Contact(props
         defaultValue={""}
         />
     </div>
-        <div className="form_group">
-          <label >busines:</label>
-          <input type="text" id="business" name="business" value={business} onChange={(e) => setBusiness(e.target.value)} />
-          {errors.business && <div>{errors.business}</div>}
-        </div>  
         <button type="submit" className="btn btn-submit">Gửi</button>
-        <button type="reset" className="btn btn-cancel"> Cancel</button>
+        <button type="reset" onClick={cancelClick} className="btn btn-cancel"> Cancel</button>
       </form>
       </div>
       </div>
-    <ShowList users={user}/>
+      <ShowList users={user}/>
     </div>    
   );
 }
