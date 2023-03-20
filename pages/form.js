@@ -15,13 +15,19 @@ export default function AddUser(props) {
     e.preventDefault();
     const errors = validate();
     if (Object.keys(errors).length === 0) {
-        const response = await fetch('api/users',{
+        const response = await fetch('http://localhost:5000/adduser',{
             method: 'POST',
             body: JSON.stringify({ email,firstname, lastname,business }),
             header:{
                 'content-type':'application/json'
               }   
         })
+        // if (response.ok) {
+        //   throw new Error(`Error! status: ${response.status}`);
+        // }
+        //  else {
+        //   return res.status(500).json({error: 'An error occurred'});
+        // }
         const data = await response.json()
         console.log(data);
       setUser(
