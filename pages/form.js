@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ShowList from './showlist';
 import {getUser} from '../lib/user'
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 export default function AddUser(props) {
   const router = useRouter()
@@ -10,23 +11,35 @@ export default function AddUser(props) {
   const [lastname, setLastName] = useState('');
   const [business, setBusiness] = useState('');
   const [errors, setErrors] = useState({});
-
   const handleSubmit = async(e) => {
     e.preventDefault();
     const errors = validate();
     if (Object.keys(errors).length === 0) {
-        const response = await fetch('api/users',{
-            method: 'POST',
-            body: JSON.stringify({ email,firstname, lastname,business }),
-            header:{
-                'content-type':'application/json'
-              }   
+
+      const response = await fetch('http://localhost:5000/adduser',{
+          method: 'POST',
+          body: JSON.stringify({ email,firstname, lastname,business }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
         })
-        const data = await response.json()
-        console.log(data);
-      setUser(
-        [...user, data]
-      );
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error))
+        // const data = await response.json()
+        // console.log(data);
+    //  let response = await axios.post ('http://localhost:5000/adduser', {
+    //     id: Date.now(),
+    //     email: email,
+    //     firstname: firstname,
+    //     lastname: lastname,
+    //     business:business,
+    //   })
+    //   .then(response => console.log(response.json()))
+    //   .then(data => console.log(data))
+    //   .catch(error => console.error(error));
+
+     
       
       setFirstName('');
       setEmail('');
@@ -58,8 +71,6 @@ export default function AddUser(props) {
     }
     return errors;
   };
-
-  const [user, setUser] = useState(props.users)
  
   return (
     <div>
@@ -112,14 +123,9 @@ export default function AddUser(props) {
       </form>
       </div>
       </div>
-      <ShowList users={user}/>
+  
     </div>    
   );
 }
-export async function getServerSideProps(context) {
-  const users = await getUser()
-  return {
-    props: {users}, 
-  }
-}
+
 
