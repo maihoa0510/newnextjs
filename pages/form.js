@@ -15,7 +15,6 @@ export default function AddUser(props) {
     e.preventDefault();
     const errors = validate();
     if (Object.keys(errors).length === 0) {
-
       const response = await fetch('http://localhost:5000/adduser',{
           method: 'POST',
           body: JSON.stringify({ email,firstname, lastname,business }),
@@ -39,8 +38,7 @@ export default function AddUser(props) {
     //   .then(data => console.log(data))
     //   .catch(error => console.error(error));
 
-     
-      
+  
       setFirstName('');
       setEmail('');
       setLastName('');
