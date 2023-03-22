@@ -14,18 +14,18 @@ export default function ShowList( {users}) {
       </tr>
       </thead>
       <tbody>
-   {
-    users.map(user => (
-      <tr key = {user.id}>
-      <td>{user.id}</td>
-      <td>{user.email}</td>
-      <td>{user.firstname}</td>
-      <td>{user.lastname}</td>
-      <td>{user.business}</td>
-    </tr>
-    ))
-   }
-   </tbody>
+        {
+          users.map((user, i) => (
+            <tr key ={i}>
+            <td>{i}</td>
+            <td>{user.email}</td>
+            <td>{user.firstname}</td>
+            <td>{user.lastname}</td>
+            <td>{user.business}</td>
+          </tr>
+          ))
+        }
+    </tbody>
      </table>
     </div>
   </>)

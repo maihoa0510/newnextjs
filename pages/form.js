@@ -25,20 +25,7 @@ export default function AddUser(props) {
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.error(error))
-        // const data = await response.json()
-        // console.log(data);
-    //  let response = await axios.post ('http://localhost:5000/adduser', {
-    //     id: Date.now(),
-    //     email: email,
-    //     firstname: firstname,
-    //     lastname: lastname,
-    //     business:business,
-    //   })
-    //   .then(response => console.log(response.json()))
-    //   .then(data => console.log(data))
-    //   .catch(error => console.error(error));
-
-  
+      router.push('/showlist');
       setFirstName('');
       setEmail('');
       setLastName('');
